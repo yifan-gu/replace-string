@@ -9,16 +9,21 @@ import (
 )
 
 const (
-	usage = "Usage: replace-string ROOT old_string new_string"
+	usage = "Usage: replace-string ROOT old_string [new_string]"
 )
 
 func main() {
-	if len(os.Args) != 4 {
+	if len(os.Args) < 3 {
 		fmt.Println(usage)
 		os.Exit(1)
 	}
 
-	root, old, new := os.Args[1], os.Args[2], os.Args[3]
+	root, old := os.Args[1], os.Args[2]
+
+	new := ""
+	if len(os.Args) == 4 {
+		new = os.Args[3]
+	}
 
 	if err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
